@@ -1,0 +1,14 @@
+Newark Associates
+========================
+
+Clinic Database Management Project for NJIT CS631
+-------------------------------------------------
+
+## Requirements:
+* Python 2.7
+* Django 1.6.5
+* South - Django Database Migration Assistant
+
+## Optional:
+* Vagrant
+* VirtualBox
