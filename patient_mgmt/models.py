@@ -234,7 +234,7 @@ class Procedure(models.Model):
     doctor = models.ForeignKey(Doctor)
 
     def __unicode__(self):
-        return self.name + " procedure at " + self.date_time + " on " + self.patient.first_name + " " + self.patient.last_name + " by Dr. " + self.doctor.personnel.last_name
+        return self.name + " procedure at " + unicode(self.date_time) + " on " + self.patient.first_name + " " + self.patient.last_name + " by Dr. " + self.doctor.personnel.last_name
 
 
 class Surgery_Type(models.Model):
