@@ -87,7 +87,6 @@ class Labs(models.Model):
 
 
 
-
 class Drug(models.Model):
     name = models.CharField(max_length=10)
     quantity_on_hand = models.IntegerField(max_length=10)
@@ -98,21 +97,20 @@ class Drug(models.Model):
     def __unicode__(self):
         return self.name
 
-
-
 class Drug_Interaction(models.Model):
     drug = models.ManyToManyField(Drug)
-    interaction = models.CharField(max_length=30)
+    effect = models.CharField(max_length=30, default="") 
     severity_of_interaction = models.CharField(max_length=1)
 
     class Meta:
         verbose_name = "Drug Interaction"
 
     def __unicode__(self):
-        return self.drug.name + ": " + self.interaction + " (" + self.severity_of_interaction + ")"
+        return ", ".join([unicode(item) for item in self.drug.all()])
 
-
-
+    # def clean(self):
+    #     if len(self.drug.all()) == 1:
+    #         raise ValidationError('Drug interactions must be between multiple drugs')
 
 
 
