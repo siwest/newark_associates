@@ -33,6 +33,10 @@ class Labs(models.Model):
     blood_sugar = models.IntegerField()
     is_high_risk_heart_disease = models.BooleanField()
 
+    class Meta:
+        verbose_name_plural = "Labs"
+
+
     def __unicode__(self):
         return self.patient.first_name + " " + self.patient.last_name
 
@@ -61,6 +65,9 @@ class Diagnosis(models.Model):
     code = models.CharField(max_length=10)
     description = models.CharField(max_length=100)
 
+    class Meta:
+        verbose_name_plural = "Diagnoses"
+
     def __unicode__(self):
         return self.patient.first_name + " " + self.patient.last_name
 
@@ -82,6 +89,10 @@ class Drug_Interaction(models.Model):
     drug = models.ManyToManyField(Drug)
     interaction = models.CharField(max_length=30)
     severity_of_interaction = models.CharField(max_length=1)
+
+    class Meta:
+        verbose_name = "Drug Interaction"
+
     def __unicode__(self):
         return self.drug.name + ": " + self.interaction + " (" + self.severity_of_interaction + ")"
 
@@ -90,6 +101,9 @@ class Drug_Interaction(models.Model):
 class Allergy(models.Model):
     patient = models.ManyToManyField(Patient)
     name = models.CharField(max_length=10)
+
+    class Meta:
+        verbose_name_plural = "Allergies"
 
     def __unicode__(self):
         return self.patient.first_name + " " + self.patient.last_name + ", Allergy: " + self.name
@@ -106,6 +120,9 @@ class Personnel(models.Model):
     phone = models.CharField(max_length=10)
     gender = models.CharField(max_length=1)
     salary = models.CharField(max_length=30)
+
+    class Meta:
+        verbose_name_plural = "Personnel"
 
     def __unicode__(self):
         return self.first_name + " " + self.last_name
@@ -183,12 +200,18 @@ class Nurse_Skill(models.Model):
     name = models.CharField(max_length=60)
     description = models.CharField(max_length=100)
 
+    class Meta:
+        verbose_name = "Nurse Skill"
+
     def __unicode__(self):
         return self.name 
 
 class Surgeon_Skill(models.Model):
     name = models.CharField(max_length=60)
     description = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name = "Surgeon Skill"
 
     def __unicode__(self):
         return self.name 
@@ -218,6 +241,9 @@ class Surgery_Type(models.Model):
     required_surgeon_skills = models.ManyToManyField(Surgeon_Skill)
     required_nurse_skills = models.ManyToManyField(Nurse_Skill)
 
+    class Meta:
+        verbose_name = "Surgery Type"
+
     def __unicode__(self):
         return self.name + "/" + self.category
 
@@ -245,6 +271,9 @@ class Surgery(models.Model):
     surgery_type = models.ForeignKey(Surgery_Type)
     anatomical_location = models.CharField(max_length=20)
     special_needs = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural = "Surgeries"
 
     def __unicode__(self):
         return self.procedure.name + "/" + self.surgery_type.name + "/" + self.anatomical_location + " procedure at " + self.procedure.date_time + " on " + self.procedure.patient.first_name + " " + self.procedure.patient.last_name + " by Dr. " + self.procedure.doctor.personnel.last_name
