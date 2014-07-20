@@ -64,12 +64,11 @@ class Labs(models.Model):
     def __unicode__(self):
         return self.patient.first_name + " " + self.patient.last_name
 
-
-    def total_cholestorol(self):
-        return self.HDL + self.LDL + (0.2 * self.triglycerides)
-
+    def total_cholesterol(self):
+        return self.HDL + self.LDL + (0.2 * self.triglycerides)  
+    
     def heart_disease_index(self):
-        return self.total_cholestorol() / self.HDL
+        return self.total_cholesterol() / self.HDL
 
     def heart_disease_category(self):
         if self.is_high_risk_heart_disease:

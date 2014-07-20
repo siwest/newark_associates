@@ -9,7 +9,21 @@ admin.site.register(Patient)
 #admin.site.register(Patient, PatientAdmin)
 
 from patient_mgmt.models import Labs
-admin.site.register(Labs)
+
+
+class LabsAdmin(admin.ModelAdmin):
+	list_display = ['patient', 
+					'blood_type',
+				    'blood_sugar',
+				    'HDL',
+				    'LDL',
+				    'triglycerides',
+				    'total_cholesterol',
+				    'heart_disease_category',
+				    ]
+
+admin.site.register(Labs, LabsAdmin)
+
 from patient_mgmt.models import Diagnosis
 admin.site.register(Diagnosis)
 from patient_mgmt.models import Drug
