@@ -1,6 +1,16 @@
 from django.db import models
 
 # Create your models here.
+class Diagnosis(models.Model):
+    code = models.CharField(max_length=10)
+    description = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural = "Diagnoses"
+
+    def __unicode__(self):
+        return self.code + " - " + self.description
+
 class Patient(models.Model):
     first_name = models.CharField(max_length=15)
     last_name = models.CharField(max_length=15)
@@ -11,6 +21,7 @@ class Patient(models.Model):
     state = models.CharField(max_length=2)
     phone = models.CharField(max_length=10)
     gender = models.CharField(max_length=1)
+    diagnosis = models.ManyToManyField(Diagnosis)
 
     def __unicode__(self):
         return self.first_name + " " + self.last_name
@@ -60,16 +71,7 @@ class Labs(models.Model):
             return "unknown"
 
 
-class Diagnosis(models.Model):
-    patient = models.ManyToManyField(Patient)
-    code = models.CharField(max_length=10)
-    description = models.CharField(max_length=100)
 
-    class Meta:
-        verbose_name_plural = "Diagnoses"
-
-    def __unicode__(self):
-        return self.patient.first_name + " " + self.patient.last_name
 
 
 
