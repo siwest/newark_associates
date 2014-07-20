@@ -168,8 +168,10 @@ class Prescription(models.Model):
         return self.patient.first_name + " " + self.patient.last_name + " is taking " + self.drug.name + " prescribed by Dr. " + self.doctor.personnel.last_name
 
     def clean(self):
-        if self.patient.prescription_set.objects.filter(drug=self.drug).exclude(doctor=self.doctor).count > 1:
-            raise ValidationError('No two doctors can prescribe the same prescription to a patient.')
+        #check to see if patient already has a prescription for this drug by a different doctor
+        if self.patient.prescription_set.filter(drug=self.drug).exclude(doctor=self.doctor).count() > 1:
+            raise ValidationError('No two doctors can prescribe the same medication to a patient.')
+
 
 
 class Appointment(models.Model):
