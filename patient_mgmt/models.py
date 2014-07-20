@@ -1,6 +1,17 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 # Create your models here.
+class Diagnosis(models.Model):
+    code = models.CharField(max_length=10)
+    description = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural = "Diagnoses"
+
+    def __unicode__(self):
+        return self.code + " - " + self.description
+
 class Patient(models.Model):
     first_name = models.CharField(max_length=15)
     last_name = models.CharField(max_length=15)
@@ -11,6 +22,7 @@ class Patient(models.Model):
     state = models.CharField(max_length=2)
     phone = models.CharField(max_length=10)
     gender = models.CharField(max_length=1)
+    diagnosis = models.ManyToManyField(Diagnosis)
 
     def __unicode__(self):
         return self.first_name + " " + self.last_name
@@ -60,16 +72,7 @@ class Labs(models.Model):
             return "unknown"
 
 
-class Diagnosis(models.Model):
-    patient = models.ManyToManyField(Patient)
-    code = models.CharField(max_length=10)
-    description = models.CharField(max_length=100)
 
-    class Meta:
-        verbose_name_plural = "Diagnoses"
-
-    def __unicode__(self):
-        return self.patient.first_name + " " + self.patient.last_name
 
 
 
@@ -81,7 +84,7 @@ class Drug(models.Model):
     unit_cost = models.DecimalField(max_digits=3, decimal_places=2)
 
     def __unicode__(self):
-        return self.name + " " + self.name
+        return self.name
 
 
 
@@ -165,8 +168,10 @@ class Prescription(models.Model):
         return self.patient.first_name + " " + self.patient.last_name + " is taking " + self.drug.name + " prescribed by Dr. " + self.doctor.personnel.last_name
 
     def clean(self):
-        if self.patient.prescription_set.objects.filter(drug=self.drug).exclude(doctor=self.doctor).count > 1:
-            raise ValidationError('No two doctors can prescribe the same prescription to a patient.')
+        #check to see if patient already has a prescription for this drug by a different doctor
+        if self.patient.prescription_set.filter(drug=self.drug).exclude(doctor=self.doctor).count() > 1:
+            raise ValidationError('No two doctors can prescribe the same medication to a patient.')
+
 
 
 class Appointment(models.Model):
@@ -232,7 +237,7 @@ class Procedure(models.Model):
     doctor = models.ForeignKey(Doctor)
 
     def __unicode__(self):
-        return self.name + " procedure at " + self.date_time + " on " + self.patient.first_name + " " + self.patient.last_name + " by Dr. " + self.doctor.personnel.last_name
+        return self.name + " procedure at " + unicode(self.date_time) + " on " + self.patient.first_name + " " + self.patient.last_name + " by Dr. " + self.doctor.personnel.last_name
 
 
 class Surgery_Type(models.Model):
@@ -276,7 +281,7 @@ class Surgery(models.Model):
         verbose_name_plural = "Surgeries"
 
     def __unicode__(self):
-        return self.procedure.name + "/" + self.surgery_type.name + "/" + self.anatomical_location + " procedure at " + self.procedure.date_time + " on " + self.procedure.patient.first_name + " " + self.procedure.patient.last_name + " by Dr. " + self.procedure.doctor.personnel.last_name
+        return self.procedure.name + "/" + self.surgery_type.name + "/" + self.anatomical_location + " procedure at " + unicode(self.procedure.date_time) + " on " + self.procedure.patient.first_name + " " + self.procedure.patient.last_name + " by Dr. " + self.procedure.doctor.personnel.last_name
 
 
 
