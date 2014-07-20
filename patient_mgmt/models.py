@@ -12,6 +12,18 @@ class Diagnosis(models.Model):
     def __unicode__(self):
         return self.code + " - " + self.description
 
+
+class Allergy(models.Model):
+    name = models.CharField(max_length=50)
+    reaction = models.CharField(max_length=100, default="anaphylaxis")
+
+    class Meta:
+        verbose_name_plural = "Allergies"
+
+    def __unicode__(self):
+        return self.name + ", reaction: " + self.reaction
+
+
 class Patient(models.Model):
     first_name = models.CharField(max_length=15)
     last_name = models.CharField(max_length=15)
@@ -23,7 +35,7 @@ class Patient(models.Model):
     phone = models.CharField(max_length=10)
     gender = models.CharField(max_length=1)
     diagnosis = models.ManyToManyField(Diagnosis)
-
+    allergy = models.ManyToManyField(Allergy)
     def __unicode__(self):
         return self.first_name + " " + self.last_name
 
@@ -101,15 +113,7 @@ class Drug_Interaction(models.Model):
 
 
 
-class Allergy(models.Model):
-    patient = models.ManyToManyField(Patient)
-    name = models.CharField(max_length=10)
 
-    class Meta:
-        verbose_name_plural = "Allergies"
-
-    def __unicode__(self):
-        return self.patient.first_name + " " + self.patient.last_name + ", Allergy: " + self.name
 
 
 class Personnel(models.Model):
