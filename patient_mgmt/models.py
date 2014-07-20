@@ -288,15 +288,13 @@ class Surgery(models.Model):
 
 
 class Admission(models.Model):
-    procedure = models.ManyToManyField(Procedure)
-    unit = models.CharField(max_length=10)
-    room = models.CharField(max_length=10)
-    bed = models.CharField(max_length=10)
-    start_stay = models.DateTimeField('date')
-    end_stay = models.DateTimeField('date')
+    procedure = models.ForeignKey(Procedure)
+    bed = models.ForeignKey(Bed)
+    start_stay = models.DateTimeField('start stay')
+    end_stay = models.DateTimeField('end stay')
 
     def __unicode__(self):
-        return "Dr. " + self.procedure.doctor.personnel.last_name + " appointment with " + self.procedure.patient.first_name + " " + self.procedure.patient.last_name + " at " + self.start_time + " " + self.end_time
+        return self.procedure.patient.first_name + " " + self.procedure.patient.last_name + " from " + unicode(self.start_stay) + " to " + unicode(self.end_stay)
 
 
 
