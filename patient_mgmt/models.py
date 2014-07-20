@@ -175,7 +175,7 @@ class Appointment(models.Model):
     time = models.DateTimeField('date')
 
     def __unicode__(self):
-        return "Dr. " + self.doctor.personnel.last_name + " appointment with " + self.patient.first_name + " " + self.patient.last_name + " at " + self.time
+        return "Dr. " + self.doctor.personnel.last_name + " appointment with " + self.patient.first_name + " " + self.patient.last_name + " at " + unicode(self.time)
 
 
 class Bed(models.Model):
