@@ -283,7 +283,7 @@ class Surgery(models.Model):
         verbose_name_plural = "Surgeries"
 
     def __unicode__(self):
-        return self.procedure.name + "/" + self.surgery_type.name + "/" + self.anatomical_location + " procedure at " + unicode(self.procedure.date_time) + " on " + self.procedure.patient.first_name + " " + self.procedure.patient.last_name + " by Dr. " + self.procedure.doctor.personnel.last_name
+        return self.procedure.name + "/" + self.anatomical_location + " procedure at " + unicode(self.procedure.date_time) + " on " + self.procedure.patient.first_name + " " + self.procedure.patient.last_name + " by Dr. " + self.procedure.doctor.personnel.last_name
 
 
 
