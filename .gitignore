@@ -1,6 +1,9 @@
 ###OSX###
 .DS_Store
 
+###Database###
+db.sqlite3
+
 ###Python###
 
 # Byte-compiled / optimized / DLL files
